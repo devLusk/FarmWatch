@@ -68,9 +68,9 @@ async def clear_webhook_messages(channel):
 
 @bot.event
 async def on_ready():
-    print(f"Bot: {bot.user.name} (ID: {bot.user.id})")
-    print(f"Latency: {round(bot.latency * 1000)}ms")
-    print("Status: Monitoring farm sessions")
+    print(f"🐝 Bot: {bot.user.name} (ID: {bot.user})")
+    print(f"📡 Latency: {round(bot.latency * 1000)}ms")
+    print("✅ Status: Monitoring farm sessions")
 
 
 @bot.event
