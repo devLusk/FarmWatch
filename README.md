@@ -23,12 +23,21 @@ It is designed to be:
 
 ## 📸 Bot in Action
 
+### Terminal Monitoring
+The bot tracks webhook events in real-time, displaying macro status and session data:
+
 ![FarmWatch monitoring a macro session](images/farmwatch-logs.png)
 
-The bot monitors webhook messages in real-time and displays:
+### Discord Output
+Once a session ends, the bot automatically cleans up webhook messages and sends a summary:
+
+![FarmWatch session summary in Discord](images/discord-logs.png)
+
+**What the bot tracks:**
 - Macro start/end detection
 - Initial honey amount from Startup Reports
-- Hourly Report tracking
+- Hourly Report count and images
+- Session duration
 - Automatic webhook cleanup
 
 ## 🔧 Setup
