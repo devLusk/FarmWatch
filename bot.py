@@ -23,13 +23,12 @@ async def on_message(message):
     if message.webhook_id is None:
         return
     
-    # DEBUG: show in terminal
-    print("Message received from webhook:")
-    print(message.content)
+    embed = message.embeds[0]
+    print("Embed title:", embed.title)
+    print("Embed description:", embed.description)
 
-    if message.attachments:
-        for attachment in message.attachments:
-            print(f"Attachment detected: {attachment.url}")
+    if embed.image and embed.image.url:
+        print("Embed image:", embed.image.url)
 
     await bot.process_commands(message)
 
