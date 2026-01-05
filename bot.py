@@ -20,6 +20,29 @@ initial_honey = None
 hourly_reports_count = 0
 last_hourly_image_url = None
 
+# ======== HELPERS ========
+
+def strip_timestamp(text: str):
+    if not text:
+        return ""
+
+    if "] " in text:
+        return text.split("] ", 1)[1]
+
+    return text
+
+
+def extract_current_honey(description: str):
+    if not description:
+        return None
+
+    lines = description.split("\n")
+    for line in lines:
+        if "Current Honey:" in line:
+            return line.split(":", 1)[1].strip()
+
+    return None
+
 # ======== EVENTS ========
 
 @bot.event
@@ -43,8 +66,11 @@ async def on_message(message):
     
     embed = message.embeds[0]
 
-    title = embed.title or ""
-    description = embed.description or ""
+    raw_title = embed.title or ""
+    raw_description = embed.description or ""
+
+    title = strip_timestamp(raw_title)
+    description = strip_timestamp(raw_description)
 
     # ======== BEGIN: MAIN LOOP ========
     if "Begin: Main Loop" in description:
@@ -61,6 +87,35 @@ async def on_message(message):
         return
 
     if not session_active:
+        return
+    
+    # ======== STARTUP REPORT ========
+    if title == "Startup Report":
+        initial_honey = extract_current_honey(description)
+        print(f">>> Startup Report | Initial Honey: {initial_honey}")
+        return
+    
+    # ======== HOURLY REPORT ========
+    if title == "Hourly Report":
+        hourly_reports_count += 1
+        print(f">>> Hourly Report #{hourly_reports_count}")
+
+        if embed.image and embed.image.url:
+            last_hourly_image_url = embed.image.url
+            print(">>> Hourly image saved")
+
+        return
+
+    # ======== END: MACRO ========
+    if "End: Macro" in description:
+        session_end_time = message.created_at
+        session_active = False
+
+        print(">>> Macro ended")
+        print("Initial Honey:", initial_honey)
+        print("Hourly Reports:", hourly_reports_count)
+        print("Last Hourly Image:", last_hourly_image_url)
+
         return
 
     await bot.process_commands(message)
