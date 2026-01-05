@@ -47,8 +47,9 @@ def extract_current_honey(description: str):
 
 @bot.event
 async def on_ready():
-    print(f"🐝 {bot.user.name} is ready")
-    print(f"📊 Status: Monitoring farm sessions")
+    print(f"Bot: {bot.user.name} (ID: {bot.user.id})")
+    print(f"Latency: {round(bot.latency * 1000)}ms")
+    print("Status: Monitoring farm sessions")
 
 
 @bot.event
@@ -74,7 +75,7 @@ async def on_message(message):
     description = strip_timestamp(raw_description)
 
     # ======== BEGIN: MAIN LOOP ========
-    if "Begin: Main Loop" in description:
+    if  description == "Begin: Main Loop":
         print(">>> Macro started")
 
         session_active = True
@@ -108,14 +109,14 @@ async def on_message(message):
         return
 
     # ======== END: MACRO ========
-    if "End: Macro" in description:
+    if  description == "End: Macro":
         session_end_time = message.created_at
         session_active = False
 
         print(">>> Macro ended")
-        print("Initial Honey:", initial_honey)
-        print("Hourly Reports:", hourly_reports_count)
-        print("Last Hourly Image:", last_hourly_image_url)
+        print(f"Initial Honey: {initial_honey}")
+        print(f"Hourly Reports: {hourly_reports_count}")
+        print(f"Last Hourly Image: {last_hourly_image_url}")
 
         return
 
