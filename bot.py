@@ -62,7 +62,7 @@ async def clear_webhook_messages(channel):
             await msg.delete()
             deleted += 1
 
-    print(f">>> Deleted {deleted} webhook messages", flush=True)
+    print(f">>> Deleted {deleted} webhook messages")
 
 # ======== EVENTS ========
 
@@ -139,7 +139,7 @@ async def on_message(message):
         print(f"Hourly Reports: {hourly_reports_count}")
         print(f"Last Hourly Image: {last_hourly_image_url}")
 
-        summary = build_summary
+        summary = build_summary()
 
         await clear_webhook_messages(message.channel)
 
