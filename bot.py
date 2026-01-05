@@ -47,7 +47,8 @@ def extract_current_honey(description: str):
 
 @bot.event
 async def on_ready():
-    print(f"Bot has been connected as {bot.user}")
+    print(f"🐝 {bot.user.name} is ready")
+    print(f"📊 Status: Monitoring farm sessions")
 
 
 @bot.event
