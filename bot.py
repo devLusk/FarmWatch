@@ -43,6 +43,27 @@ def extract_current_honey(description: str):
 
     return None
 
+def build_summary():
+    summary = (
+        "🧾 **Macro Session Summary**\n"
+        f"⏱️ Macro Start: {session_start_time}\n"
+        f"⏱️ Macro End: {session_end_time}\n"
+        f"🍯 Initial Honey: {initial_honey or 'Unknown'}\n"
+        f"📊 Hourly Reports: {hourly_reports_count}\n"
+    )
+
+    return summary
+
+async def clear_webhook_messages(channel):
+    deleted = 0
+
+    async for msg in channel.history(limit=200):
+        if msg.webhook_id is not None:
+            await msg.delete()
+            deleted += 1
+
+    print(f">>> Deleted {deleted} webhook messages", flush=True)
+
 # ======== EVENTS ========
 
 @bot.event
@@ -117,6 +138,15 @@ async def on_message(message):
         print(f"Initial Honey: {initial_honey}")
         print(f"Hourly Reports: {hourly_reports_count}")
         print(f"Last Hourly Image: {last_hourly_image_url}")
+
+        summary = build_summary
+
+        await clear_webhook_messages(message.channel)
+
+        await message.channel.send(summary)
+
+        if last_hourly_image_url:
+            await message.channel.send(last_hourly_image_url)
 
         return
 
