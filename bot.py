@@ -3,6 +3,7 @@ from state.session import new_session, reset_session, end_session
 from services.summary import build_summary
 from utils.text import strip_timestamp, extract_current_honey
 from utils.clear import clear_webhook_messages
+from utils import commands as bot_commands
 
 import discord
 from discord.ext import commands
@@ -23,6 +24,8 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
+    await bot.process_commands(message)
+
     if message.author == bot.user:
         return
     
@@ -81,7 +84,12 @@ async def on_message(message):
 
         return
 
-    await bot.process_commands(message)
+
+# ======== COMMANDS ========
+
+@bot.command()
+async def setup(ctx):
+    await bot_commands.setup(ctx)
 
 
 # ======== RUN ========
