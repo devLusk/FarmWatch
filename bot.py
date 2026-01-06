@@ -54,7 +54,7 @@ async def on_message(message):
     # ======== HOURLY REPORT ========
     if title == "Hourly Report":
         session["hourly_reports"] += 1
-        print(f">>> Hourly Report #{session["hourly_reports"]}")
+        print(f">>> Hourly Report #{session['hourly_reports']}")
 
         if embed.image and embed.image.url:
             session["last_hourly_image"] = embed.image.url
