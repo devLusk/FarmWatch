@@ -4,8 +4,6 @@ from services.summary import build_summary
 from utils.text import strip_timestamp, extract_current_honey
 from utils.clear import clear_webhook_messages
 from utils import commands as bot_commands
-
-import discord
 from discord.ext import commands
 
 token, intents = load_config()
